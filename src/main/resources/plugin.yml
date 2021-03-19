@@ -1,0 +1,7 @@
+name: FixYoGrammar
+version: @version@
+main: xyz.tehbrian.fixyogrammar.FixYoGrammar
+api-version: 1.16
+authors: [ TehBrian ]
+description: Corrects the grammatical errors in chat messages post- or pre-send.
+website: tehbrian.xyz

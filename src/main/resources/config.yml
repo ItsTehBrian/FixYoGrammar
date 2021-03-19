@@ -1,0 +1,4 @@
+# If set to true, messages will not be sent if they have a grammatical error.
+strict: false
+# The max amount of suggestions that will be sent per error.
+max_suggestions: 3
