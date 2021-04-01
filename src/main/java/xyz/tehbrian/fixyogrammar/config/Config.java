@@ -10,6 +10,7 @@ public class Config extends AbstractConfig {
 
     private boolean strict;
     private int maxSuggestions;
+    private boolean shame;
 
     public Config(
             final @NonNull ConfigWrapper configWrapper,
@@ -35,6 +36,11 @@ public class Config extends AbstractConfig {
             logger.warning("Config value max_suggestions does not exist. Defaulting to 3.");
         }
 
+        this.shame = config.getBoolean("shame", true);
+        if (!config.isBoolean("shame")) {
+            logger.warning("Config value shame does not exist. Defaulting to true.");
+        }
+
         logger.info("Successfully loaded all values for config.yml!");
     }
 
@@ -46,9 +52,16 @@ public class Config extends AbstractConfig {
     }
 
     /**
-     * # The max amount of suggestions that will be sent per error.
+     * The max amount of suggestions that will be sent per error.
      */
     public int maxSuggestions() {
         return this.maxSuggestions;
+    }
+
+    /**
+     * Whether mistakes should be publicly shamed in chat.
+     */
+    public boolean shame() {
+        return this.shame;
     }
 }

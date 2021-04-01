@@ -6,4 +6,7 @@ error_multiple_corrections: "<red>| <#aa9999>At characters <gold><from>-<to></go
 footer: "<red>| <#ffccdd>Please make sure to not make these mistakes next time!"
 footer_strict: "<red>| <#ffccdd>As such, your message could not be sent. Please correct these errors and try again."
 
+shame_single_error: "<red>| <#ffccdd><gold><player></gold> sent a message with <gold><num></gold> grammatical error! Shame, shame!"
+shame_multiple_errors: "<red>| <#ffccdd><gold><player></gold> sent a message with <gold><num></gold> grammatical errors! Shame, shame!"
+
 reload: "<red>| <#ffccdd>Successfully reloaded config!"
