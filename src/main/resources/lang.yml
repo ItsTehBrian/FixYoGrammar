@@ -1,5 +1,6 @@
 header: "<red>| <#ffccdd>Your message contains the following grammatical errors:"
 
+error_no_corrections: "<red>| <#aa9999>At characters <gold><from>-<to></gold> (\"<gold><snippet></gold>\"): <red><pre><error></pre></red>"
 error_single_correction: "<red>| <#aa9999>At characters <gold><from>-<to></gold> (\"<gold><snippet></gold>\"): <red><pre><error></pre></red> Suggested correction: <gold><pre><correction></pre></gold>."
 error_multiple_corrections: "<red>| <#aa9999>At characters <gold><from>-<to></gold> (\"<gold><snippet></gold>\"): <red><pre><error></pre></red> Suggested corrections: <gold><pre><correction></pre></gold>."
 

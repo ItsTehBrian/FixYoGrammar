@@ -88,16 +88,24 @@ public class ChatListener implements Listener {
                                 .limit(this.config.maxSuggestions())
                                 .collect(Collectors.toList());
 
-                        String errorKey = corrections.size() <= 1
-                                ? "error_single_correction"
-                                : "error_multiple_corrections";
+                        if (corrections.isEmpty()) {
+                            player.sendMessage(this.lang.c("error_no_corrections",
+                                    Map.of("from", String.valueOf(match.getFromPos()),
+                                            "to", String.valueOf(match.getToPos()),
+                                            "snippet", plainMessage.substring(match.getFromPos(), match.getToPos()),
+                                            "error", match.getMessage())));
+                        } else {
+                            String errorKey = corrections.size() <= 1
+                                    ? "error_single_correction"
+                                    : "error_multiple_corrections";
 
-                        player.sendMessage(this.lang.c(errorKey,
-                                Map.of("from", String.valueOf(match.getFromPos()),
-                                        "to", String.valueOf(match.getToPos()),
-                                        "snippet", plainMessage.substring(match.getFromPos(), match.getToPos()),
-                                        "error", match.getMessage(),
-                                        "correction", String.join(", ", corrections))));
+                            player.sendMessage(this.lang.c(errorKey,
+                                    Map.of("from", String.valueOf(match.getFromPos()),
+                                            "to", String.valueOf(match.getToPos()),
+                                            "snippet", plainMessage.substring(match.getFromPos(), match.getToPos()),
+                                            "error", match.getMessage(),
+                                            "correction", String.join(", ", corrections))));
+                        }
                     }
 
                     if (this.config.strict()) {
