@@ -11,6 +11,7 @@ import com.google.inject.name.Names;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.languagetool.JLanguageTool;
 import xyz.tehbrian.fixyogrammar.command.CloudController;
 import xyz.tehbrian.fixyogrammar.config.Config;
 import xyz.tehbrian.fixyogrammar.config.ConfigWrapper;
@@ -20,6 +21,9 @@ import xyz.tehbrian.fixyogrammar.inject.ConfigModule;
 import xyz.tehbrian.fixyogrammar.inject.LanguageToolModule;
 import xyz.tehbrian.fixyogrammar.inject.PluginModule;
 import xyz.tehbrian.fixyogrammar.listener.ChatListener;
+
+import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * The main class for FixYoGrammar.
@@ -36,11 +40,9 @@ public final class FixYoGrammar extends JavaPlugin {
         );
 
         PluginManager pluginManager = this.getServer().getPluginManager();
-
         pluginManager.registerEvents(injector.getInstance(ChatListener.class), this);
 
         CloudController cloudController = injector.getInstance(CloudController.class);
-
         try {
             cloudController.init();
         } catch (Exception e) {
@@ -69,5 +71,16 @@ public final class FixYoGrammar extends JavaPlugin {
                     injector.getInstance(Config.class).loadValues();
                     context.getSender().sendMessage(injector.getInstance(Lang.class).c("reload"));
                 }));
+
+        Logger logger = this.getLogger();
+        logger.info("Loading LanguageTool.. this may take a moment or two.");
+        JLanguageTool jLanguageTool = injector.getInstance(JLanguageTool.class);
+        try {
+            jLanguageTool.check("dummy text");
+        } catch (IOException e) {
+            logger.severe("There was an error when checking a message: " + e.getMessage());
+            return;
+        }
+        logger.info("Finished loading LanguageTool!");
     }
 }
