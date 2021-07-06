@@ -1,5 +1,5 @@
 # FixYoGrammar
-Corrects the grammatical errors in chat messages post- or pre-send.
+Annoyingly correct the grammatical errors in your players' chat messages post- or pre-send.
 
 ## Should I use this plugin?
 Absolutely not! Your players will hate you if you do.
