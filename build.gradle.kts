@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("xyz.jpenilla.run-paper") version "1.0.6"
 }
 
 group = "xyz.tehbrian"
@@ -40,5 +41,9 @@ tasks {
 
     shadowJar {
         archiveBaseName.set("FixYoGrammar")
+    }
+
+    runServer {
+        minecraftVersion("1.17.1")
     }
 }
