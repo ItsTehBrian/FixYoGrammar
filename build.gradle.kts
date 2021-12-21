@@ -25,7 +25,7 @@ dependencies {
     implementation("com.google.inject:guice:5.0.1")
     implementation("org.languagetool:language-en:5.2")
 
-    implementation("cloud.commandframework:cloud-paper:1.4.0")
+    implementation("cloud.commandframework:cloud-paper:1.6.1")
     implementation("cloud.commandframework:cloud-minecraft-extras:1.4.0")
 
     implementation("net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT")
