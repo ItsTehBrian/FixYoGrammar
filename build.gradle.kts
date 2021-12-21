@@ -37,4 +37,8 @@ tasks {
     processResources {
         expand("version" to project.version)
     }
+
+    shadowJar {
+        archiveBaseName.set("FixYoGrammar")
+    }
 }
