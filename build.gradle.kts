@@ -28,7 +28,7 @@ dependencies {
     implementation("cloud.commandframework:cloud-paper:1.6.1")
     implementation("cloud.commandframework:cloud-minecraft-extras:1.6.1")
 
-    implementation("net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT")
+    implementation("net.kyori:adventure-text-minimessage:4.10.1")
 }
 
 tasks {
