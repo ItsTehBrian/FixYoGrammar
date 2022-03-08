@@ -7,6 +7,7 @@ plugins {
 
 group = "xyz.tehbrian"
 version = "1.1.0"
+description = "Corrects the grammatical errors in chat messages post- or pre-send."
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -31,7 +32,7 @@ dependencies {
 
 tasks {
     processResources {
-        expand("version" to project.version)
+        expand("version" to project.version, "description" to project.description)
     }
 
     shadowJar {

@@ -1,5 +1,5 @@
 name: FixYoGrammar
-description: Corrects the grammatical errors in chat messages post- or pre-send.
+description: ${description}
 authors: [ TehBrian ]
 website: https://tehbrian.xyz
 
