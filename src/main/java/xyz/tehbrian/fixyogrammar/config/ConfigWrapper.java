@@ -74,7 +74,7 @@ public class ConfigWrapper {
 
         final InputStream defConfigStream = this.javaPlugin.getResource(this.file.getName());
         if (defConfigStream != null) {
-            InputStreamReader reader = new InputStreamReader(defConfigStream, Charsets.UTF_8);
+            final InputStreamReader reader = new InputStreamReader(defConfigStream, Charsets.UTF_8);
             this.fileConfig.setDefaults(YamlConfiguration.loadConfiguration(reader));
         }
     }
@@ -89,7 +89,7 @@ public class ConfigWrapper {
     public void save() {
         try {
             this.get().save(this.file);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             this.logger.log(Level.SEVERE, "Could not save config to " + this.file.getAbsolutePath(), ex);
         }
     }

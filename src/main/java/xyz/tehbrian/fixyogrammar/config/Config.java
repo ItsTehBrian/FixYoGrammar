@@ -24,7 +24,7 @@ public class Config extends AbstractConfig {
      */
     @Override
     public void loadValues() {
-        FileConfiguration config = this.configWrapper.get();
+        final FileConfiguration config = this.configWrapper.get();
 
         this.strict = config.getBoolean("strict", false);
         if (!config.isBoolean("strict")) {

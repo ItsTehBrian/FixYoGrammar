@@ -28,7 +28,7 @@ public class ConfigModule extends AbstractModule {
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull @PluginLogger Logger logger
     ) {
-        ConfigWrapper configWrapper = new ConfigWrapper(javaPlugin, logger, "config.yml");
+        final ConfigWrapper configWrapper = new ConfigWrapper(javaPlugin, logger, "config.yml");
         configWrapper.saveDefault();
 
         return configWrapper;
@@ -45,7 +45,7 @@ public class ConfigModule extends AbstractModule {
             final @NonNull @Named("config") ConfigWrapper configWrapper,
             final @NonNull @PluginLogger Logger logger
     ) {
-        Config config = new Config(configWrapper, logger);
+        final Config config = new Config(configWrapper, logger);
         config.loadValues();
 
         return config;
@@ -62,7 +62,7 @@ public class ConfigModule extends AbstractModule {
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull @PluginLogger Logger logger
     ) {
-        ConfigWrapper langWrapper = new ConfigWrapper(javaPlugin, logger, "lang.yml");
+        final ConfigWrapper langWrapper = new ConfigWrapper(javaPlugin, logger, "lang.yml");
         langWrapper.saveDefault();
 
         return langWrapper;

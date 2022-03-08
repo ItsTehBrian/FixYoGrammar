@@ -39,25 +39,25 @@ public final class FixYoGrammar extends JavaPlugin {
                 new CommandModule()
         );
 
-        PluginManager pluginManager = this.getServer().getPluginManager();
+        final PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(injector.getInstance(ChatListener.class), this);
 
-        CloudController cloudController = injector.getInstance(CloudController.class);
+        final CloudController cloudController = injector.getInstance(CloudController.class);
         try {
             cloudController.init();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             this.getServer().getPluginManager().disablePlugin(this);
         }
 
-        PaperCommandManager<CommandSender> cloud = cloudController.getCommandManager();
+        final PaperCommandManager<CommandSender> cloud = cloudController.getCommandManager();
 
-        MinecraftHelp<CommandSender> minecraftHelp = new MinecraftHelp<>(
+        final MinecraftHelp<CommandSender> minecraftHelp = new MinecraftHelp<>(
                 "/fyg",
                 player -> player,
                 cloud
         );
 
-        Command.Builder<CommandSender> base = cloud.commandBuilder("fixyogrammar", "fyg")
+        final Command.Builder<CommandSender> base = cloud.commandBuilder("fixyogrammar", "fyg")
                 .meta(CommandMeta.DESCRIPTION, "All commands for FixYoGrammar.")
                 .handler((context) -> minecraftHelp.queryCommands("", context.getSender()));
 
@@ -72,12 +72,12 @@ public final class FixYoGrammar extends JavaPlugin {
                     context.getSender().sendMessage(injector.getInstance(Lang.class).c("reload"));
                 }));
 
-        Logger logger = this.getLogger();
+        final Logger logger = this.getLogger();
         logger.info("Loading LanguageTool.. this may take a moment or two.");
-        JLanguageTool jLanguageTool = injector.getInstance(JLanguageTool.class);
+        final JLanguageTool jLanguageTool = injector.getInstance(JLanguageTool.class);
         try {
             jLanguageTool.check("dummy text");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             logger.severe("There was an error when checking a message: " + e.getMessage());
             return;
         }

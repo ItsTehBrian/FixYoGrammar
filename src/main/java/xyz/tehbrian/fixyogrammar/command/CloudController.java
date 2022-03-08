@@ -48,7 +48,7 @@ public class CloudController {
                     Function.identity(),
                     Function.identity()
             );
-        } catch (Exception e) {
+        } catch (final Exception e) {
             this.logger.severe("Failed to construct the CommandManager. Something has gone very, very wrong!");
             throw e;
         }
