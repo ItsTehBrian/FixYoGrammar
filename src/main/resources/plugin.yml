@@ -5,4 +5,4 @@ website: https://tehbrian.xyz
 
 version: ${version}
 main: xyz.tehbrian.fixyogrammar.FixYoGrammar
-api-version: 1.17
+api-version: 1.18

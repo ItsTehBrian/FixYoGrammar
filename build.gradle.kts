@@ -20,15 +20,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
 
     implementation("com.google.inject:guice:5.1.0")
     implementation("org.languagetool:language-en:5.6")
 
     implementation("cloud.commandframework:cloud-paper:1.6.1")
     implementation("cloud.commandframework:cloud-minecraft-extras:1.6.1")
-
-    implementation("net.kyori:adventure-text-minimessage:4.10.1")
 }
 
 tasks {
@@ -41,6 +39,6 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.17.1")
+        minecraftVersion("1.18.2")
     }
 }
