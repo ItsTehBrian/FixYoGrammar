@@ -45,21 +45,21 @@ public class Config extends AbstractConfig {
     }
 
     /**
-     * Whether the language checking mode should be strict.
+     * @return whether the language checking mode should be strict
      */
     public boolean strict() {
         return this.strict;
     }
 
     /**
-     * The max amount of suggestions that will be sent per error.
+     * @return the max amount of suggestions that will be sent per error
      */
     public int maxSuggestions() {
         return this.maxSuggestions;
     }
 
     /**
-     * Whether mistakes should be publicly shamed in chat.
+     * @return whether mistakes should be publicly shamed in chat
      */
     public boolean shame() {
         return this.shame;

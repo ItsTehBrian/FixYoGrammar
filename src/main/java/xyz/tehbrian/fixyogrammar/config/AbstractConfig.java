@@ -26,8 +26,6 @@ public abstract class AbstractConfig {
     public abstract void loadValues();
 
     /**
-     * Gets the
-     *
      * @return the config wrapper
      */
     public ConfigWrapper getConfigWrapper() {

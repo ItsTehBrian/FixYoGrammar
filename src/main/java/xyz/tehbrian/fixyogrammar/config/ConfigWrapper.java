@@ -26,11 +26,6 @@ public class ConfigWrapper {
 
     private FileConfiguration fileConfig;
 
-    /**
-     * @param javaPlugin the javaPlugin
-     * @param logger     the logger
-     * @param file       the file
-     */
     public ConfigWrapper(
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull Logger logger,
@@ -41,11 +36,6 @@ public class ConfigWrapper {
         this.file = file;
     }
 
-    /**
-     * @param javaPlugin the plugin
-     * @param logger     the logger
-     * @param fileName   the file name
-     */
     public ConfigWrapper(
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull @PluginLogger Logger logger,

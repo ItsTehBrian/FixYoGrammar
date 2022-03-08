@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * The main class for FixYoGrammar.
+ * The main class for the FixYoGrammar plugin.
  */
 public final class FixYoGrammar extends JavaPlugin {
 

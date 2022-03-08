@@ -79,7 +79,7 @@ public class CloudController {
     }
 
     /**
-     * Gets the internal {@link cloud.commandframework.CommandManager}.
+     * @return the internal {@link cloud.commandframework.CommandManager}
      */
     public PaperCommandManager<CommandSender> getCommandManager() {
         return this.commandManager;

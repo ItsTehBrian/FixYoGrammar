@@ -20,10 +20,6 @@ public class Lang {
     private final ConfigWrapper configWrapper;
     private final Logger logger;
 
-    /**
-     * @param configWrapper the config wrapper
-     * @param logger        the logger
-     */
     public Lang(
             final @NonNull ConfigWrapper configWrapper,
             final @NonNull Logger logger
@@ -58,6 +54,9 @@ public class Lang {
     /**
      * Gets the value for {@code configKey} in {@link #configWrapper}, and verifies
      * that is not null.
+     *
+     * @param configKey the config key
+     * @return the verified string
      */
     private String getAndVerifyString(final String configKey) {
         final String rawValue = this.configWrapper.get().getString(configKey);

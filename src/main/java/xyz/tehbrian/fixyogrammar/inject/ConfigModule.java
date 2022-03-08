@@ -12,16 +12,8 @@ import xyz.tehbrian.fixyogrammar.config.Lang;
 
 import java.util.logging.Logger;
 
-/**
- * Guice module which provides bindings for the various configuration files.
- */
-public class ConfigModule extends AbstractModule {
+public final class ConfigModule extends AbstractModule {
 
-    /**
-     * Provides the ConfigWrapper for config.yml.
-     *
-     * @return the config wrapper
-     */
     @Provides
     @Singleton
     public @Named("config") ConfigWrapper provideConfigWrapper(
@@ -34,11 +26,6 @@ public class ConfigModule extends AbstractModule {
         return configWrapper;
     }
 
-    /**
-     * Provides Config.
-     *
-     * @return the config
-     */
     @Provides
     @Singleton
     public Config provideConfig(
@@ -51,11 +38,6 @@ public class ConfigModule extends AbstractModule {
         return config;
     }
 
-    /**
-     * Provides the ConfigWrapper for lang.yml
-     *
-     * @return the config wrapper
-     */
     @Provides
     @Singleton
     public @Named("lang") ConfigWrapper provideLangWrapper(
@@ -68,11 +50,6 @@ public class ConfigModule extends AbstractModule {
         return langWrapper;
     }
 
-    /**
-     * Provides Lang.
-     *
-     * @return the lang
-     */
     @Provides
     @Singleton
     public Lang provideLang(
