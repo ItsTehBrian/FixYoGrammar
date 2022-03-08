@@ -37,6 +37,7 @@ tasks {
 
     shadowJar {
         archiveBaseName.set("FixYoGrammar")
+        archiveClassifier.set("")
 
         val libsPackage = "xyz.tehbrian.fixyogrammar.libs"
         relocate("com.google.inject", "$libsPackage.guice")
