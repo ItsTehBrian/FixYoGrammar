@@ -2,10 +2,10 @@ package xyz.tehbrian.fixyogrammar.config;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -35,17 +35,13 @@ public class Lang {
     /**
      * Gets the value for {@code configKey} in {@link #configWrapper}, and parses it
      * using {@link MiniMessage}.
-     * <p>
-     * For each entry in {@code replacements}, any substring in the parsed
-     * {@code String} matching the key surrounded with angled brackets, that is
-     * to say {@code <key>}, is replaced with the corresponding value.
      *
-     * @param configKey    the config key
-     * @param replacements the replacements
+     * @param configKey   the config key
+     * @param tagResolver the tag resolver
      * @return the component
      */
-    public Component c(final String configKey, final Map<String, String> replacements) {
-        return MiniMessage.get().parse(this.getAndVerifyString(configKey), replacements);
+    public Component c(final String configKey, final TagResolver tagResolver) {
+        return MiniMessage.miniMessage().deserialize(this.getAndVerifyString(configKey), tagResolver);
     }
 
     /**
@@ -56,7 +52,7 @@ public class Lang {
      * @return the component
      */
     public Component c(final String configKey) {
-        return MiniMessage.get().parse(this.getAndVerifyString(configKey));
+        return MiniMessage.miniMessage().deserialize(this.getAndVerifyString(configKey));
     }
 
     /**
@@ -64,7 +60,7 @@ public class Lang {
      * that is not null.
      */
     private String getAndVerifyString(final String configKey) {
-        String rawValue = this.configWrapper.get().getString(configKey);
+        final String rawValue = this.configWrapper.get().getString(configKey);
 
         if (rawValue == null) {
             this.logger.severe("Attempted to get message from non-existent config key \"" + configKey + "\"!");

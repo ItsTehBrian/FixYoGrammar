@@ -3,7 +3,9 @@ package xyz.tehbrian.fixyogrammar.listener;
 import com.google.inject.Inject;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +19,6 @@ import xyz.tehbrian.fixyogrammar.inject.PluginLogger;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -55,16 +56,16 @@ public class ChatListener implements Listener {
      */
     @EventHandler
     public void onAsyncChat(final AsyncChatEvent event) {
-        String plainMessage = PlainComponentSerializer.plain().serialize(event.message());
-        Player player = event.getPlayer();
+        final String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
+        final Player player = event.getPlayer();
 
         // comment in to use statistical ngram data:
         //langTool.activateLanguageModelRules(new File("/data/google-ngram-data"));
 
-        List<RuleMatch> matches;
+        final List<RuleMatch> matches;
         try {
             matches = this.languageTool.check(plainMessage);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             this.logger.severe("There was an error when checking a message: " + e.getMessage());
             return;
         }
@@ -82,29 +83,35 @@ public class ChatListener implements Listener {
                 () -> {
                     player.sendMessage(this.lang.c("header"));
 
-                    for (RuleMatch match : matches) {
-                        List<String> corrections = match.getSuggestedReplacements()
+                    for (final RuleMatch match : matches) {
+                        final List<String> corrections = match.getSuggestedReplacements()
                                 .stream()
                                 .limit(this.config.maxSuggestions())
                                 .collect(Collectors.toList());
 
                         if (corrections.isEmpty()) {
-                            player.sendMessage(this.lang.c("error_no_corrections",
-                                    Map.of("from", String.valueOf(match.getFromPos()),
-                                            "to", String.valueOf(match.getToPos()),
-                                            "snippet", plainMessage.substring(match.getFromPos(), match.getToPos()),
-                                            "error", match.getMessage())));
+                            final TagResolver resolver = TagResolver.resolver(
+                                    Placeholder.unparsed("from", String.valueOf(match.getFromPos())),
+                                    Placeholder.unparsed("to", String.valueOf(match.getToPos())),
+                                    Placeholder.unparsed("snippet", plainMessage.substring(match.getFromPos(), match.getToPos())),
+                                    Placeholder.unparsed("error", match.getMessage())
+                            );
+
+                            player.sendMessage(this.lang.c("error_no_corrections", resolver));
                         } else {
-                            String errorKey = corrections.size() <= 1
+                            final String errorKey = corrections.size() <= 1
                                     ? "error_single_correction"
                                     : "error_multiple_corrections";
 
-                            player.sendMessage(this.lang.c(errorKey,
-                                    Map.of("from", String.valueOf(match.getFromPos()),
-                                            "to", String.valueOf(match.getToPos()),
-                                            "snippet", plainMessage.substring(match.getFromPos(), match.getToPos()),
-                                            "error", match.getMessage(),
-                                            "correction", String.join(", ", corrections))));
+                            final TagResolver resolver = TagResolver.resolver(
+                                    Placeholder.unparsed("from", String.valueOf(match.getFromPos())),
+                                    Placeholder.unparsed("to", String.valueOf(match.getToPos())),
+                                    Placeholder.unparsed("snippet", plainMessage.substring(match.getFromPos(), match.getToPos())),
+                                    Placeholder.unparsed("error", match.getMessage()),
+                                    Placeholder.unparsed("correction", String.join(", ", corrections))
+                            );
+
+                            player.sendMessage(this.lang.c(errorKey, resolver));
                         }
                     }
 
@@ -115,16 +122,20 @@ public class ChatListener implements Listener {
                     }
 
                     if (this.config.shame()) {
-                        String shameKey = matches.size() <= 1
+                        final String shameKey = matches.size() <= 1
                                 ? "shame_single_error"
                                 : "shame_multiple_errors";
 
-                        Component shameMessage = this.lang.c(shameKey,
-                                Map.of("player", player.getName(),
-                                        "num", String.valueOf(matches.size())));
+                        final Component shameMessage = this.lang.c(
+                                shameKey,
+                                TagResolver.resolver(
+                                        Placeholder.unparsed("player", player.getName()),
+                                        Placeholder.unparsed("num", String.valueOf(matches.size()))
+                                )
+                        );
 
-                        UUID playerUuid = player.getUniqueId();
-                        for (Player serverPlayer : this.javaPlugin.getServer().getOnlinePlayers()) {
+                        final UUID playerUuid = player.getUniqueId();
+                        for (final Player serverPlayer : this.javaPlugin.getServer().getOnlinePlayers()) {
                             if (playerUuid.equals(serverPlayer.getUniqueId())) {
                                 return;
                             }
