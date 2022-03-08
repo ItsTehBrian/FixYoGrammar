@@ -64,4 +64,5 @@ public class Config extends AbstractConfig {
     public boolean shame() {
         return this.shame;
     }
+
 }

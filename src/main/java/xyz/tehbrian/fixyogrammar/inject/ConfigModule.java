@@ -81,4 +81,5 @@ public class ConfigModule extends AbstractModule {
     ) {
         return new Lang(langWrapper, logger);
     }
+
 }

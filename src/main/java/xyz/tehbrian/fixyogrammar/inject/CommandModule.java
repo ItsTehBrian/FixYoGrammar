@@ -16,4 +16,5 @@ public class CommandModule extends AbstractModule {
     protected void configure() {
         this.bind(CloudController.class).in(Singleton.class);
     }
+
 }

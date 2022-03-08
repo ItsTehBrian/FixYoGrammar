@@ -32,4 +32,5 @@ public class LanguageToolModule extends AbstractModule {
     public JLanguageTool provideJLanguageTool() {
         return new JLanguageTool(this.language);
     }
+
 }

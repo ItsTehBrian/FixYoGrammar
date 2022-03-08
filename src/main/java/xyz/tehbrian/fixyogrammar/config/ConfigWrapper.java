@@ -34,7 +34,8 @@ public class ConfigWrapper {
     public ConfigWrapper(
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull Logger logger,
-            final @NonNull File file) {
+            final @NonNull File file
+    ) {
         this.javaPlugin = javaPlugin;
         this.logger = logger;
         this.file = file;
@@ -48,7 +49,8 @@ public class ConfigWrapper {
     public ConfigWrapper(
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull @PluginLogger Logger logger,
-            final @NonNull String fileName) {
+            final @NonNull String fileName
+    ) {
         this(javaPlugin, logger, new File(javaPlugin.getDataFolder(), fileName));
     }
 
@@ -103,4 +105,5 @@ public class ConfigWrapper {
             this.javaPlugin.saveResource(this.file.getName(), false);
         }
     }
+
 }

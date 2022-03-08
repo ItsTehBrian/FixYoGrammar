@@ -84,4 +84,5 @@ public class CloudController {
     public PaperCommandManager<CommandSender> getCommandManager() {
         return this.commandManager;
     }
+
 }

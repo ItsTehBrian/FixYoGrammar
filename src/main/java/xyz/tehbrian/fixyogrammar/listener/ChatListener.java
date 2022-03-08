@@ -144,6 +144,8 @@ public class ChatListener implements Listener {
                         }
                     }
                 },
-                1);
+                1
+        );
     }
+
 }

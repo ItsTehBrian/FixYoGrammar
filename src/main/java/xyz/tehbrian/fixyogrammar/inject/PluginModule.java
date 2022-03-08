@@ -57,4 +57,5 @@ public class PluginModule extends AbstractModule {
     public Server provideServer() {
         return this.fixYoGrammar.getServer();
     }
+
 }

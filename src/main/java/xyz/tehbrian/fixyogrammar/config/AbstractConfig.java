@@ -33,4 +33,5 @@ public abstract class AbstractConfig {
     public ConfigWrapper getConfigWrapper() {
         return this.configWrapper;
     }
+
 }

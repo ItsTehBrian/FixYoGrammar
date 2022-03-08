@@ -83,4 +83,5 @@ public final class FixYoGrammar extends JavaPlugin {
         }
         logger.info("Finished loading LanguageTool!");
     }
+
 }
