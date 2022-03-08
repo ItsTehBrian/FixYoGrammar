@@ -5,14 +5,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.tehbrian.fixyogrammar.inject.PluginLogger;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 /**
  * A wrapper for a {@link FileConfiguration}, which provides convenience methods
@@ -38,7 +36,7 @@ public class ConfigWrapper {
 
     public ConfigWrapper(
             final @NonNull JavaPlugin javaPlugin,
-            final @NonNull @PluginLogger Logger logger,
+            final @NonNull Logger logger,
             final @NonNull String fileName
     ) {
         this(javaPlugin, logger, new File(javaPlugin.getDataFolder(), fileName));
@@ -82,7 +80,7 @@ public class ConfigWrapper {
         try {
             this.get().save(this.file);
         } catch (final IOException ex) {
-            this.logger.log(Level.SEVERE, "Could not save config to " + this.file.getAbsolutePath(), ex);
+            this.logger.error("Could not save config to " + this.file.getAbsolutePath(), ex);
         }
     }
 

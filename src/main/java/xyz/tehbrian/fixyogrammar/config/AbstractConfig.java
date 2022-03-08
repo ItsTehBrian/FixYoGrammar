@@ -2,7 +2,7 @@ package xyz.tehbrian.fixyogrammar.config;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 /**
  * Loads and holds values from a {@link ConfigWrapper}.

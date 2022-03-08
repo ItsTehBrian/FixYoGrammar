@@ -15,12 +15,11 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
 import xyz.tehbrian.fixyogrammar.config.Config;
 import xyz.tehbrian.fixyogrammar.config.Lang;
-import xyz.tehbrian.fixyogrammar.inject.PluginLogger;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +37,7 @@ public class ChatListener implements Listener {
     public ChatListener(
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull JLanguageTool jLanguageTool,
-            final @NonNull @PluginLogger Logger logger,
+            final @NonNull Logger logger,
             final @NonNull Config config,
             final @NonNull Lang lang
     ) {
@@ -66,7 +65,7 @@ public class ChatListener implements Listener {
         try {
             matches = this.languageTool.check(plainMessage);
         } catch (final IOException e) {
-            this.logger.severe("There was an error when checking a message: " + e.getMessage());
+            this.logger.error("There was an error when checking a message: " + e.getMessage());
             return;
         }
 

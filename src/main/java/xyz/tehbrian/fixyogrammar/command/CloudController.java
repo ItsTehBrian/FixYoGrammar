@@ -8,10 +8,9 @@ import com.google.inject.Inject;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.tehbrian.fixyogrammar.inject.PluginLogger;
 
 import java.util.function.Function;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 /**
  * Manages a {@link cloud.commandframework.CommandManager} instance.
@@ -25,7 +24,7 @@ public class CloudController {
 
     @Inject
     public CloudController(
-            final @NonNull @PluginLogger Logger logger,
+            final @NonNull Logger logger,
             final @NonNull JavaPlugin javaPlugin
     ) {
         this.logger = logger;
@@ -49,7 +48,7 @@ public class CloudController {
                     Function.identity()
             );
         } catch (final Exception e) {
-            this.logger.severe("Failed to construct the CommandManager. Something has gone very, very wrong!");
+            this.logger.error("Failed to construct the CommandManager. Something has gone very, very wrong!");
             throw e;
         }
 

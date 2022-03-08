@@ -5,17 +5,14 @@ import com.google.inject.Provides;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.slf4j.Logger;
 import xyz.tehbrian.fixyogrammar.FixYoGrammar;
-
-import java.util.logging.Logger;
 
 public final class PluginModule extends AbstractModule {
 
     private final FixYoGrammar fixYoGrammar;
 
-    public PluginModule(
-            final @NonNull FixYoGrammar fixYoGrammar
-    ) {
+    public PluginModule(final @NonNull FixYoGrammar fixYoGrammar) {
         this.fixYoGrammar = fixYoGrammar;
     }
 
@@ -26,9 +23,8 @@ public final class PluginModule extends AbstractModule {
     }
 
     @Provides
-    @PluginLogger
     public Logger providePluginLogger() {
-        return this.fixYoGrammar.getLogger();
+        return this.fixYoGrammar.getSLF4JLogger();
     }
 
     @Provides

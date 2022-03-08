@@ -2,9 +2,8 @@ package xyz.tehbrian.fixyogrammar.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.tehbrian.fixyogrammar.inject.PluginLogger;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 public class Config extends AbstractConfig {
 
@@ -14,7 +13,7 @@ public class Config extends AbstractConfig {
 
     public Config(
             final @NonNull ConfigWrapper configWrapper,
-            final @NonNull @PluginLogger Logger logger
+            final @NonNull Logger logger
     ) {
         super(configWrapper, logger);
     }
@@ -28,17 +27,17 @@ public class Config extends AbstractConfig {
 
         this.strict = config.getBoolean("strict", false);
         if (!config.isBoolean("strict")) {
-            logger.warning("Config value strict does not exist. Defaulting to false.");
+            logger.warn("Config value strict does not exist. Defaulting to false.");
         }
 
         this.maxSuggestions = config.getInt("max_suggestions", 3);
         if (!config.isInt("max_suggestions")) {
-            logger.warning("Config value max_suggestions does not exist. Defaulting to 3.");
+            logger.warn("Config value max_suggestions does not exist. Defaulting to 3.");
         }
 
         this.shame = config.getBoolean("shame", true);
         if (!config.isBoolean("shame")) {
-            logger.warning("Config value shame does not exist. Defaulting to true.");
+            logger.warn("Config value shame does not exist. Defaulting to true.");
         }
 
         logger.info("Successfully loaded all values for config.yml!");

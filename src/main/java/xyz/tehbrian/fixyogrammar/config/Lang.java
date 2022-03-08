@@ -6,7 +6,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 /**
  * Retrieves {@code String}s from a {@link FileConfiguration}
@@ -62,7 +62,7 @@ public class Lang {
         final String rawValue = this.configWrapper.get().getString(configKey);
 
         if (rawValue == null) {
-            this.logger.severe("Attempted to get message from non-existent config key \"" + configKey + "\"!");
+            this.logger.error("Attempted to get message from non-existent config key \"" + configKey + "\"!");
             throw new IllegalArgumentException("No value found in the config for that given config key.");
         }
 

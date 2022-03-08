@@ -11,6 +11,7 @@ import com.google.inject.name.Names;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.languagetool.JLanguageTool;
 import xyz.tehbrian.fixyogrammar.command.CloudController;
 import xyz.tehbrian.fixyogrammar.config.Config;
@@ -23,16 +24,18 @@ import xyz.tehbrian.fixyogrammar.inject.PluginModule;
 import xyz.tehbrian.fixyogrammar.listener.ChatListener;
 
 import java.io.IOException;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 /**
  * The main class for the FixYoGrammar plugin.
  */
 public final class FixYoGrammar extends JavaPlugin {
 
+    private @MonotonicNonNull Injector injector;
+
     @Override
     public void onEnable() {
-        final Injector injector = Guice.createInjector(
+        this.injector = Guice.createInjector(
                 new PluginModule(this),
                 new LanguageToolModule(),
                 new ConfigModule(),
@@ -40,9 +43,9 @@ public final class FixYoGrammar extends JavaPlugin {
         );
 
         final PluginManager pluginManager = this.getServer().getPluginManager();
-        pluginManager.registerEvents(injector.getInstance(ChatListener.class), this);
+        pluginManager.registerEvents(this.injector.getInstance(ChatListener.class), this);
 
-        final CloudController cloudController = injector.getInstance(CloudController.class);
+        final CloudController cloudController = this.injector.getInstance(CloudController.class);
         try {
             cloudController.init();
         } catch (final Exception e) {
@@ -66,19 +69,22 @@ public final class FixYoGrammar extends JavaPlugin {
         cloudController.registerCommand(base.literal("reload")
                 .meta(CommandMeta.DESCRIPTION, "Reloads the plugin.")
                 .handler(context -> {
-                    injector.getInstance(Key.get(ConfigWrapper.class, Names.named("config"))).load();
-                    injector.getInstance(Key.get(ConfigWrapper.class, Names.named("lang"))).load();
-                    injector.getInstance(Config.class).loadValues();
-                    context.getSender().sendMessage(injector.getInstance(Lang.class).c("reload"));
+                    this.injector.getInstance(Key.get(ConfigWrapper.class, Names.named("config"))).load();
+                    this.injector.getInstance(Key.get(ConfigWrapper.class, Names.named("lang"))).load();
+                    this.injector.getInstance(Config.class).loadValues();
+                    context.getSender().sendMessage(this.injector.getInstance(Lang.class).c("reload"));
                 }));
+    }
 
-        final Logger logger = this.getLogger();
-        logger.info("Loading LanguageTool.. this may take a moment or two.");
-        final JLanguageTool jLanguageTool = injector.getInstance(JLanguageTool.class);
+    public void loadLanguageTool() {
+        final Logger logger = this.injector.getInstance(Logger.class);
+        logger.info("Loading LanguageTool, this may take a moment.");
+
+        final JLanguageTool jLanguageTool = this.injector.getInstance(JLanguageTool.class);
         try {
             jLanguageTool.check("dummy text");
         } catch (final IOException e) {
-            logger.severe("There was an error when checking a message: " + e.getMessage());
+            logger.error("There was an error when checking a message: " + e.getMessage());
             return;
         }
         logger.info("Finished loading LanguageTool!");
