@@ -27,7 +27,7 @@ dependencies {
     implementation("org.languagetool:language-en:5.6")
 
     implementation("cloud.commandframework:cloud-paper:1.6.2")
-    implementation("cloud.commandframework:cloud-minecraft-extras:1.6.1")
+    implementation("cloud.commandframework:cloud-minecraft-extras:1.6.2")
 }
 
 tasks {
