@@ -24,7 +24,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
 
     implementation("com.google.inject:guice:5.1.0")
-    implementation("org.languagetool:language-en:5.6")
+    implementation("org.languagetool:language-en:5.7")
 
     implementation("cloud.commandframework:cloud-paper:1.6.2")
     implementation("cloud.commandframework:cloud-minecraft-extras:1.6.2")
