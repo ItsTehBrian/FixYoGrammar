@@ -10,7 +10,6 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 import dev.tehbrian.tehlib.paper.TehPlugin;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginManager;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.languagetool.JLanguageTool;
 import org.slf4j.Logger;
@@ -50,14 +49,23 @@ public final class FixYoGrammar extends TehPlugin {
             return;
         }
 
-        final PluginManager pluginManager = this.getServer().getPluginManager();
-        pluginManager.registerEvents(this.injector.getInstance(ChatListener.class), this);
+        if (!this.setupCommands()) {
+            this.disableSelf();
+            return;
+        }
 
+        this.registerListeners(this.injector.getInstance(ChatListener.class));
+    }
+
+    /**
+     * @return whether it was successful
+     */
+    private boolean setupCommands() {
         final CloudController cloudController = this.injector.getInstance(CloudController.class);
         try {
             cloudController.init();
         } catch (final Exception e) {
-            this.getServer().getPluginManager().disablePlugin(this);
+            return false;
         }
 
         final PaperCommandManager<CommandSender> cloud = cloudController.getCommandManager();
@@ -82,6 +90,8 @@ public final class FixYoGrammar extends TehPlugin {
                     this.injector.getInstance(Config.class).loadValues();
                     context.getSender().sendMessage(this.injector.getInstance(Lang.class).c("reload"));
                 }));
+
+        return true;
     }
 
     public void loadLanguageTool() {
