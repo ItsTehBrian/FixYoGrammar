@@ -7,7 +7,7 @@ plugins {
 
 group = "xyz.tehbrian"
 version = "1.1.0"
-description = "Corrects the grammatical errors in chat messages post- or pre-send."
+description = "Annoyingly corrects the grammatical errors in your players' chat messages."
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))

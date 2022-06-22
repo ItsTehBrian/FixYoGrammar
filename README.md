@@ -1,5 +1,5 @@
 # FixYoGrammar
-Annoyingly correct the grammatical errors in your players' chat messages post- or pre-send.
+Annoyingly corrects the grammatical errors in your players' chat messages.
 
 * [Download](https://github.com/TehBrian/FixYoGrammar/releases/latest)
 * [Discord](https://thbn.me/discord)
