@@ -28,21 +28,21 @@ public final class MainCommand extends PaperCloudCommand<CommandSender> {
 
     @Override
     public void register(@NonNull final PaperCommandManager<CommandSender> commandManager) {
+        final var main = commandManager.commandBuilder("fyg")
+                .meta(CommandMeta.DESCRIPTION, "The main command for FixYoGrammar.");
+
         final MinecraftHelp<CommandSender> minecraftHelp = new MinecraftHelp<>(
                 "/fyg",
                 AudienceProvider.nativeAudience(), commandManager
         );
-
-        final var main = commandManager.commandBuilder("fyg")
-                .meta(CommandMeta.DESCRIPTION, "The main command for FixYoGrammar.");
 
         final var help = main
                 .handler((context) -> minecraftHelp.queryCommands("", context.getSender()));
 
         commandManager.command(help);
 
-        commandManager.command(main.literal("reload")
-                .meta(CommandMeta.DESCRIPTION, "Reloads the plugin.")
+        final var reload = main.literal("reload")
+                .meta(CommandMeta.DESCRIPTION, "Reloads the config.")
                 .handler(context -> {
                     final boolean success = this.fixYoGrammar.loadConfiguration();
 
@@ -51,7 +51,9 @@ public final class MainCommand extends PaperCloudCommand<CommandSender> {
                     } else {
                         context.getSender().sendMessage(this.langConfig.c(NodePath.path("reload", "failure")));
                     }
-                }));
+                });
+
+        commandManager.command(reload);
     }
 
 }
