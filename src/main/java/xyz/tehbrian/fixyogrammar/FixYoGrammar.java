@@ -8,11 +8,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
+import dev.tehbrian.tehlib.paper.TehPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.languagetool.JLanguageTool;
+import org.slf4j.Logger;
 import xyz.tehbrian.fixyogrammar.command.CloudController;
 import xyz.tehbrian.fixyogrammar.config.Config;
 import xyz.tehbrian.fixyogrammar.config.ConfigWrapper;
@@ -24,23 +25,30 @@ import xyz.tehbrian.fixyogrammar.inject.PluginModule;
 import xyz.tehbrian.fixyogrammar.listener.ChatListener;
 
 import java.io.IOException;
-import org.slf4j.Logger;
 
 /**
  * The main class for the FixYoGrammar plugin.
  */
-public final class FixYoGrammar extends JavaPlugin {
+public final class FixYoGrammar extends TehPlugin {
 
     private @MonotonicNonNull Injector injector;
 
     @Override
     public void onEnable() {
-        this.injector = Guice.createInjector(
-                new PluginModule(this),
-                new LanguageToolModule(),
-                new ConfigModule(),
-                new CommandModule()
-        );
+        try {
+            this.injector = Guice.createInjector(
+                    new PluginModule(this),
+                    new LanguageToolModule(),
+                    new ConfigModule(),
+                    new CommandModule()
+            );
+        } catch (final Exception e) {
+            this.getSLF4JLogger().error("Something went wrong while creating the Guice injector.");
+            this.getSLF4JLogger().error("Disabling plugin.");
+            this.disableSelf();
+            this.getSLF4JLogger().error("Printing stack trace, please send this to the developers:", e);
+            return;
+        }
 
         final PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(this.injector.getInstance(ChatListener.class), this);
