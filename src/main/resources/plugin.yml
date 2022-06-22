@@ -1,7 +1,7 @@
 name: FixYoGrammar
 description: ${description}
 authors: [ TehBrian ]
-website: https://tehbrian.xyz
+website: https://github.com/TehBrian/FixYoGrammar
 
 version: ${version}
 main: xyz.tehbrian.fixyogrammar.FixYoGrammar
