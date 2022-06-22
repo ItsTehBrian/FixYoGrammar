@@ -47,9 +47,9 @@ public final class MainCommand extends PaperCloudCommand<CommandSender> {
                     final boolean success = this.fixYoGrammar.loadConfiguration();
 
                     if (success) {
-                        context.getSender().sendMessage(this.langConfig.c(NodePath.path("reload")));
+                        context.getSender().sendMessage(this.langConfig.c(NodePath.path("reload", "success")));
                     } else {
-                        context.getSender().sendMessage(this.langConfig.c(NodePath.path("reload"))); // TODO: different message
+                        context.getSender().sendMessage(this.langConfig.c(NodePath.path("reload", "failure")));
                     }
                 }));
     }
