@@ -23,7 +23,7 @@ public final class PluginModule extends AbstractModule {
     }
 
     @Provides
-    public Logger providePluginLogger() {
+    public Logger provideSLF4JLogger() {
         return this.fixYoGrammar.getSLF4JLogger();
     }
 

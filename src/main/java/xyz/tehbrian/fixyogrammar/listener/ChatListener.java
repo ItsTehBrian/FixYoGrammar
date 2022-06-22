@@ -13,18 +13,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
+import org.slf4j.Logger;
 import xyz.tehbrian.fixyogrammar.config.Config;
 import xyz.tehbrian.fixyogrammar.config.Lang;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import org.slf4j.Logger;
 import java.util.stream.Collectors;
 
-/**
- * Listens to chat-related events.
- */
 public class ChatListener implements Listener {
 
     private final JavaPlugin javaPlugin;
@@ -48,13 +45,8 @@ public class ChatListener implements Listener {
         this.lang = lang;
     }
 
-    /**
-     * Called when a Player sends a message.
-     *
-     * @param event the event
-     */
     @EventHandler
-    public void onAsyncChat(final AsyncChatEvent event) {
+    public void onChat(final AsyncChatEvent event) {
         final String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
         final Player player = event.getPlayer();
 
