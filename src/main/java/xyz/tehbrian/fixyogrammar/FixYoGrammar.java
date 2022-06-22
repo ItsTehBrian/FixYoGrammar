@@ -3,6 +3,7 @@ package xyz.tehbrian.fixyogrammar;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import dev.tehbrian.tehlib.core.configurate.Config;
 import dev.tehbrian.tehlib.paper.TehPlugin;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -10,15 +11,18 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.languagetool.JLanguageTool;
 import org.slf4j.Logger;
+import org.spongepowered.configurate.ConfigurateException;
 import xyz.tehbrian.fixyogrammar.command.CommandService;
 import xyz.tehbrian.fixyogrammar.command.MainCommand;
-import xyz.tehbrian.fixyogrammar.inject.SingletonModule;
-import xyz.tehbrian.fixyogrammar.inject.ConfigModule;
+import xyz.tehbrian.fixyogrammar.config.ConfigConfig;
+import xyz.tehbrian.fixyogrammar.config.LangConfig;
 import xyz.tehbrian.fixyogrammar.inject.LanguageToolModule;
 import xyz.tehbrian.fixyogrammar.inject.PluginModule;
+import xyz.tehbrian.fixyogrammar.inject.SingletonModule;
 import xyz.tehbrian.fixyogrammar.listener.ChatListener;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The main class for the FixYoGrammar plugin.
@@ -33,7 +37,6 @@ public final class FixYoGrammar extends TehPlugin {
             this.injector = Guice.createInjector(
                     new PluginModule(this),
                     new LanguageToolModule(),
-                    new ConfigModule(),
                     new SingletonModule()
             );
         } catch (final Exception e) {
@@ -44,6 +47,10 @@ public final class FixYoGrammar extends TehPlugin {
             return;
         }
 
+        if (!this.loadConfiguration()) {
+            this.disableSelf();
+            return;
+        }
         if (!this.setupCommands()) {
             this.disableSelf();
             return;
@@ -52,6 +59,33 @@ public final class FixYoGrammar extends TehPlugin {
         this.registerListeners(this.injector.getInstance(ChatListener.class));
 
         this.loadLanguageTool();
+    }
+
+    /**
+     * @return whether it was successful
+     */
+    public boolean loadConfiguration() {
+        this.saveResourceSilently("config.yml");
+        this.saveResourceSilently("lang.yml");
+
+        final List<Config> configsToLoad = List.of(
+                this.injector.getInstance(ConfigConfig.class),
+                this.injector.getInstance(LangConfig.class)
+        );
+
+        for (final Config config : configsToLoad) {
+            try {
+                config.load();
+            } catch (final ConfigurateException e) {
+                this.getSLF4JLogger().error("Exception caught during config load for {}", config.configurateWrapper().filePath());
+                this.getSLF4JLogger().error("Please check your config.");
+                this.getSLF4JLogger().error("Printing stack trace:", e);
+                return false;
+            }
+        }
+
+        this.getSLF4JLogger().info("Successfully loaded configuration.");
+        return true;
     }
 
     /**

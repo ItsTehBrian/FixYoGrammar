@@ -14,8 +14,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
 import org.slf4j.Logger;
-import xyz.tehbrian.fixyogrammar.config.Config;
-import xyz.tehbrian.fixyogrammar.config.Lang;
+import org.spongepowered.configurate.NodePath;
+import xyz.tehbrian.fixyogrammar.config.ConfigConfig;
+import xyz.tehbrian.fixyogrammar.config.LangConfig;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,16 +28,16 @@ public final class ChatListener implements Listener {
     private final JavaPlugin javaPlugin;
     private final JLanguageTool languageTool;
     private final Logger logger;
-    private final Config config;
-    private final Lang lang;
+    private final ConfigConfig config;
+    private final LangConfig lang;
 
     @Inject
     public ChatListener(
             final @NonNull JavaPlugin javaPlugin,
             final @NonNull JLanguageTool jLanguageTool,
             final @NonNull Logger logger,
-            final @NonNull Config config,
-            final @NonNull Lang lang
+            final @NonNull ConfigConfig config,
+            final @NonNull LangConfig lang
     ) {
         this.javaPlugin = javaPlugin;
         this.languageTool = jLanguageTool;
@@ -72,7 +73,7 @@ public final class ChatListener implements Listener {
         this.javaPlugin.getServer().getScheduler().scheduleSyncDelayedTask(
                 this.javaPlugin,
                 () -> {
-                    player.sendMessage(this.lang.c("header"));
+                    player.sendMessage(this.lang.c(NodePath.path("header")));
 
                     for (final RuleMatch match : matches) {
                         final List<String> corrections = match.getSuggestedReplacements()
@@ -88,11 +89,11 @@ public final class ChatListener implements Listener {
                                     Placeholder.unparsed("error", match.getMessage())
                             );
 
-                            player.sendMessage(this.lang.c("error_no_corrections", resolver));
+                            player.sendMessage(this.lang.c(NodePath.path("error_no_corrections"), resolver));
                         } else {
-                            final String errorKey = corrections.size() <= 1
-                                    ? "error_single_correction"
-                                    : "error_multiple_corrections";
+                            final NodePath errorPath = corrections.size() <= 1
+                                    ? NodePath.path("error_single_correction")
+                                    : NodePath.path("error_multiple_corrections");
 
                             final TagResolver resolver = TagResolver.resolver(
                                     Placeholder.unparsed("from", String.valueOf(match.getFromPos())),
@@ -102,23 +103,23 @@ public final class ChatListener implements Listener {
                                     Placeholder.unparsed("correction", String.join(", ", corrections))
                             );
 
-                            player.sendMessage(this.lang.c(errorKey, resolver));
+                            player.sendMessage(this.lang.c(errorPath, resolver));
                         }
                     }
 
                     if (this.config.strict()) {
-                        player.sendMessage(this.lang.c("footer_strict"));
+                        player.sendMessage(this.lang.c(NodePath.path("footer_strict")));
                     } else {
-                        player.sendMessage(this.lang.c("footer"));
+                        player.sendMessage(this.lang.c(NodePath.path("footer")));
                     }
 
                     if (this.config.shame()) {
-                        final String shameKey = matches.size() <= 1
-                                ? "shame_single_error"
-                                : "shame_multiple_errors";
+                        final NodePath shamePath = matches.size() <= 1
+                                ? NodePath.path("shame_single_error")
+                                : NodePath.path("shame_multiple_errors");
 
                         final Component shameMessage = this.lang.c(
-                                shameKey,
+                                shamePath,
                                 TagResolver.resolver(
                                         Placeholder.unparsed("player", player.getName()),
                                         Placeholder.unparsed("num", String.valueOf(matches.size()))

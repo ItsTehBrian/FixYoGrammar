@@ -1,6 +1,6 @@
-# If set to true, messages will not be sent if they have a grammatical error.
+# Whether messages will be denied if they have a grammatical error.
 strict: false
 # The max amount of suggestions that will be sent per error.
 max_suggestions: 3
-# Whether mistakes should be publicly shamed in chat.
+# Whether mistakes will be publicly shamed in chat.
 shame: true
