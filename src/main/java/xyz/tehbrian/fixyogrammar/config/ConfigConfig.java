@@ -55,9 +55,9 @@ public final class ConfigConfig extends AbstractConfig<YamlConfigurateWrapper> {
 
         final var shameNode = rootNode.node("shame");
         if (shameNode.virtual()) {
-            this.logger.warn("Config value `shame` does not exist. Defaulting to `true`.");
+            this.logger.warn("Config value `shame` does not exist. Defaulting to `false`.");
         }
-        this.shame = shameNode.getBoolean(true);
+        this.shame = shameNode.getBoolean(false);
     }
 
     /**

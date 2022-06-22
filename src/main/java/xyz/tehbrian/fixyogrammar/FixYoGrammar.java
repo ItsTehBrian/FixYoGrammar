@@ -123,6 +123,7 @@ public final class FixYoGrammar extends TehPlugin {
             logger.error("There was an error when checking a message: " + e.getMessage());
             return;
         }
+
         logger.info("Finished loading LanguageTool!");
     }
 

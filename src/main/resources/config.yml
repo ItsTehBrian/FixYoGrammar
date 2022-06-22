@@ -3,4 +3,4 @@ strict: false
 # The max amount of suggestions that will be sent per error.
 max_suggestions: 3
 # Whether mistakes will be publicly shamed in chat.
-shame: true
+shame: false
