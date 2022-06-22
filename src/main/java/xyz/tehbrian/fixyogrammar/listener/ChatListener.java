@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class ChatListener implements Listener {
+public final class ChatListener implements Listener {
 
     private final JavaPlugin javaPlugin;
     private final JLanguageTool languageTool;

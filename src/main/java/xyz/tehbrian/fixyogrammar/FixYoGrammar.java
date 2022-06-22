@@ -1,23 +1,18 @@
 package xyz.tehbrian.fixyogrammar;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.minecraft.extras.MinecraftHelp;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
 import dev.tehbrian.tehlib.paper.TehPlugin;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.languagetool.JLanguageTool;
 import org.slf4j.Logger;
-import xyz.tehbrian.fixyogrammar.command.CloudController;
-import xyz.tehbrian.fixyogrammar.config.Config;
-import xyz.tehbrian.fixyogrammar.config.ConfigWrapper;
-import xyz.tehbrian.fixyogrammar.config.Lang;
-import xyz.tehbrian.fixyogrammar.inject.CommandModule;
+import xyz.tehbrian.fixyogrammar.command.CommandService;
+import xyz.tehbrian.fixyogrammar.command.MainCommand;
+import xyz.tehbrian.fixyogrammar.inject.SingletonModule;
 import xyz.tehbrian.fixyogrammar.inject.ConfigModule;
 import xyz.tehbrian.fixyogrammar.inject.LanguageToolModule;
 import xyz.tehbrian.fixyogrammar.inject.PluginModule;
@@ -39,7 +34,7 @@ public final class FixYoGrammar extends TehPlugin {
                     new PluginModule(this),
                     new LanguageToolModule(),
                     new ConfigModule(),
-                    new CommandModule()
+                    new SingletonModule()
             );
         } catch (final Exception e) {
             this.getSLF4JLogger().error("Something went wrong while creating the Guice injector.");
@@ -63,35 +58,22 @@ public final class FixYoGrammar extends TehPlugin {
      * @return whether it was successful
      */
     private boolean setupCommands() {
-        final CloudController cloudController = this.injector.getInstance(CloudController.class);
+        final @NonNull CommandService commandService = this.injector.getInstance(CommandService.class);
         try {
-            cloudController.init();
+            commandService.init();
         } catch (final Exception e) {
+            this.getSLF4JLogger().error("Failed to create the CommandManager.");
+            this.getSLF4JLogger().error("Printing stack trace, please send this to the developers:", e);
             return false;
         }
 
-        final PaperCommandManager<CommandSender> cloud = cloudController.getCommandManager();
+        final @Nullable PaperCommandManager<CommandSender> commandManager = commandService.get();
+        if (commandManager == null) {
+            this.getSLF4JLogger().error("The CommandService was null after initialization!");
+            return false;
+        }
 
-        final MinecraftHelp<CommandSender> minecraftHelp = new MinecraftHelp<>(
-                "/fyg",
-                player -> player,
-                cloud
-        );
-
-        final Command.Builder<CommandSender> base = cloud.commandBuilder("fixyogrammar", "fyg")
-                .meta(CommandMeta.DESCRIPTION, "All commands for FixYoGrammar.")
-                .handler((context) -> minecraftHelp.queryCommands("", context.getSender()));
-
-        cloudController.registerCommand(base);
-
-        cloudController.registerCommand(base.literal("reload")
-                .meta(CommandMeta.DESCRIPTION, "Reloads the plugin.")
-                .handler(context -> {
-                    this.injector.getInstance(Key.get(ConfigWrapper.class, Names.named("config"))).load();
-                    this.injector.getInstance(Key.get(ConfigWrapper.class, Names.named("lang"))).load();
-                    this.injector.getInstance(Config.class).loadValues();
-                    context.getSender().sendMessage(this.injector.getInstance(Lang.class).c("reload"));
-                }));
+        this.injector.getInstance(MainCommand.class).register(commandManager);
 
         return true;
     }
