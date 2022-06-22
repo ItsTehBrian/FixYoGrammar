@@ -2,6 +2,7 @@ package xyz.tehbrian.fixyogrammar.inject;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
@@ -15,6 +16,7 @@ public final class LanguageToolModule extends AbstractModule {
     private final Language language = new AmericanEnglish();
 
     @Provides
+    @Singleton
     public JLanguageTool provideJLanguageTool() {
         return new JLanguageTool(this.language);
     }
