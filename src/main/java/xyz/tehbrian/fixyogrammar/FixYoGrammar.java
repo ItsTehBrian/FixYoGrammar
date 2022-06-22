@@ -55,6 +55,8 @@ public final class FixYoGrammar extends TehPlugin {
         }
 
         this.registerListeners(this.injector.getInstance(ChatListener.class));
+
+        this.loadLanguageTool();
     }
 
     /**
