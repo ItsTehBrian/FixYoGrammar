@@ -2,11 +2,13 @@ package xyz.tehbrian.fixyogrammar.inject;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import org.bukkit.Server;
+import com.google.inject.name.Named;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import xyz.tehbrian.fixyogrammar.FixYoGrammar;
+
+import java.nio.file.Path;
 
 public final class PluginModule extends AbstractModule {
 
@@ -23,13 +25,14 @@ public final class PluginModule extends AbstractModule {
     }
 
     @Provides
-    public Logger provideSLF4JLogger() {
+    public @NonNull Logger provideSLF4JLogger() {
         return this.fixYoGrammar.getSLF4JLogger();
     }
 
     @Provides
-    public Server provideServer() {
-        return this.fixYoGrammar.getServer();
+    @Named("dataFolder")
+    public @NonNull Path provideDataFolder() {
+        return this.fixYoGrammar.getDataFolder().toPath();
     }
 
 }
