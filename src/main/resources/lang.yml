@@ -11,5 +11,5 @@ shame_single_error: "<red>| <#ffccdd><gold><player></gold> sent a message with <
 shame_multiple_errors: "<red>| <#ffccdd><gold><player></gold> sent a message with <gold><num></gold> grammatical errors! Shame, shame!"
 
 reload:
-  success: "<red>| <#ffccdd>Successfully reloaded configuration!"
-  failure: "<red>| <#aa9999>Failed to load configuration, please check the console.!"
+  success: "<red>| <#ffccdd>Successfully reloaded configuration."
+  failure: "<red>| <#aa9999>Failed to load configuration, please check the console."
