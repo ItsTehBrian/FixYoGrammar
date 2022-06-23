@@ -129,7 +129,7 @@ public final class ChatListener implements Listener {
                         final UUID playerUuid = player.getUniqueId();
                         for (final Player serverPlayer : this.javaPlugin.getServer().getOnlinePlayers()) {
                             if (playerUuid.equals(serverPlayer.getUniqueId())) {
-                                return;
+                                continue;
                             }
 
                             serverPlayer.sendMessage(shameMessage);
