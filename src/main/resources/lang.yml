@@ -1,8 +1,8 @@
 header: "<red>| <#ffccdd>Your message contains the following errors:"
 
-error_no_corrections: "<red>| <#aa9999>At characters <gold><from>-<to></gold> (\"<gold><snippet></gold>\"): <red><pre><error></pre></red>"
-error_single_correction: "<red>| <#aa9999>At characters <gold><from>-<to></gold> (\"<gold><snippet></gold>\"): <red><pre><error></pre></red> Suggested correction: <gold><pre><correction></pre></gold>."
-error_multiple_corrections: "<red>| <#aa9999>At characters <gold><from>-<to></gold> (\"<gold><snippet></gold>\"): <red><pre><error></pre></red> Suggested corrections: <gold><pre><correction></pre></gold>."
+error_no_corrections: "<red>| <#aa9999>At characters <gold><from></gold>-<gold><to></gold> (\"<gold><snippet></gold>\"): <red><error></red>"
+error_single_correction: "<red>| <#aa9999>At characters <gold><from></gold>-<gold><to></gold> (\"<gold><snippet></gold>\"): <red><error></red> Suggested correction: <gold><correction></gold>."
+error_multiple_corrections: "<red>| <#aa9999>At characters <gold><from></gold>-<gold><to></gold> (\"<gold><snippet></gold>\"): <red><error></red> Suggested corrections: <gold><correction></gold>."
 
 footer: "<red>| <#ffccdd>Please be sure to not make these mistakes next time!"
 footer_strict: "<red>| <#ffccdd>As such, your message could not be sent. Please correct these errors and try again."
