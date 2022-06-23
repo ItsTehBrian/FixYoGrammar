@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "xyz.tehbrian"
-version = "1.1.0"
+version = "1.2.0"
 description = "Annoyingly corrects the grammatical errors in your players' chat messages."
 
 java {
