@@ -48,7 +48,6 @@ tasks {
 
         val libsPackage = "${project.group}.${project.name}.libs"
         relocate("com.google.inject", "$libsPackage.guice")
-        relocate("org.languagetool", "$libsPackage.languagetool")
         relocate("cloud.commandframework", "$libsPackage.cloud")
     }
 
